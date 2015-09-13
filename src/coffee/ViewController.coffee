@@ -5,8 +5,8 @@ class ViewController
         # Create our `<canvas>` DOM element
 
         @c = document.createElement("canvas")
-        @activeGraph = system
-        @network = system
+        @activeGraph = null
+        #@network = system
         # Set some attributes
         @c.id     = @id
         @c.width  = @width
@@ -30,8 +30,10 @@ class ViewController
         @nodetext =  $('#nodetext')
 
 
-    startCanvas:(graph) ->
-        @activeGraph = graph
+    startCanvas:(subsystem) ->
+        @activeGraph = subsystem
+        #@activeGraph.force.start()
+        
         $(@id).css({
             "-moz-user-select": "none",
             "-webkit-user-select": "none",
@@ -45,21 +47,21 @@ class ViewController
         that = this
 
 
-        $('#addMetabolite').click(->
-            that.activeGraph.nodes.push(
-                that.activeGraph.createMetabolite($('#metab_name').val().trim(), $('#metab_id').val().trim(),
-                                                    true, that.ctx)
-            )
-        )
-        $("#addReaction").click(->
-            source =
-                id : $('#source').val().trim()
-                name : $('#source :selected').text()
-            target =
-                id:  $('#target').val().trim()
-                name: $('#target :selected').text()
-            that.activeGraph.addLink(source, target, $("#reaction_name").val(), 0, that.ctx)
-        )
+        # $('#addMetabolite').click(->
+        #     that.activeGraph.nodes.push(
+        #         that.activeGraph.createMetabolite($('#metab_name').val().trim(), $('#metab_id').val().trim(),
+        #                                             true, that.ctx)
+        #     )
+        # )
+        # $("#addReaction").click(->
+        #     source =
+        #         id : $('#source').val().trim()
+        #         name : $('#source :selected').text()
+        #     target =
+        #         id:  $('#target').val().trim()
+        #         name: $('#target :selected').text()
+        #     that.activeGraph.addLink(source, target, $("#reaction_name").val(), 0, that.ctx)
+        # )
 
 
 
@@ -70,7 +72,8 @@ class ViewController
         @dragScaleFactor = 1.5
         @lastX = @width // 2
         @lastY = @width // 2
-        @activeGraph.force.start()
+
+        #@activeGraph.force.start()
         @c.addEventListener("mousewheel", mousewheelHandler.bind(this), false)
         @c.addEventListener("mousedown", mousedownHandler.bind(this), false)
         @c.addEventListener("mouseup", mouseupHandler.bind(this), false)
@@ -273,8 +276,11 @@ class ViewController
         @ctx.fill()
 
     draw: ->
-        link.draw() for link in @activeGraph.links
-        node.draw() for node in @activeGraph.nodes
+        console.log @activeGraph.links
+        for link in @activeGraph.links
+            link.draw()
+        for node in @activeGraph.nodes
+            node.draw()
 
     render: ->
         stats.begin()

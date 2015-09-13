@@ -6,7 +6,8 @@ class Metabolite extends Node
 
         @specie = attr.specie
 
-    draw: ->
+
+    draw: ()->
         if not @deleted
             @ctx.beginPath()
             @ctx.moveTo(@x, @y)

@@ -6,11 +6,11 @@ Link       = require './Link'
 utilities = require './utilities'
 
 module.exports =
-    createReaction: (name, id, radius, flux, ctx) ->
+    createReaction: (name, id, flux, ctx) ->
         reactionAttributes =
             x : utilities.rand(@W)
             y : utilities.rand(@H)
-            r : radius
+            r : 10
             name : name
             id : id
             type : "r"
@@ -19,26 +19,20 @@ module.exports =
         return new Reaction(reactionAttributes, ctx)
 
     # System injected
-    createReactionNode: (reaction) ->
-        r = @reactions[reaction.id]
-        if not r?
-            reactionAttributes =
-                x : utilities.rand(@W)
-                y : utilities.rand(@H)
-                r : @radiusScale(reaction.flux_value)
-                name : reaction.name
-                id : reaction.id
-                type : "r"
-                flux_value : reaction.flux_value
-                colour : "rgb(#{utilities.rand(255)}, #{utilities.rand(255)}, #{utilities.rand(255)})"
+    createReactionNode: (id, name, flux_value, ctx) ->
 
-            r = new ReactionNode(reactionAttributes, @ctx)
-            @reactions[reaction.id] = r
-            for inNeighbour in reaction.inNeighbours
-                r.inNeighbours.push(inNeighbour.name)
-            for outNeighbour in reaction.outNeighbours
-                r.outNeighbours.push(outNeighbour.name)
-            @nodes.push(r)
+        reactionAttributes =
+            x : utilities.rand(@W)
+            y : utilities.rand(@H)
+            r : 10 #hardcoded like mad right now
+            name : name
+            id : id
+            type : "r"
+            flux_value : flux_value
+            colour : "rgb(#{utilities.rand(255)}, #{utilities.rand(255)}, #{utilities.rand(255)})"
+
+        r = new ReactionNode(reactionAttributes, ctx)
+
         return r
 
     # System injected

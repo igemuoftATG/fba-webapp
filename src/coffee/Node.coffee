@@ -6,6 +6,7 @@ rand = (range) ->
 #
 class Node
     constructor: (attr, @ctx) ->
+
         if not attr?
             console.log(attr)
         @x = attr.x
@@ -19,9 +20,9 @@ class Node
         @keepStatic = false
 
 
+        if @type is "m"
+            @compartment = @id.split('_')[@id.split('_').length - 1]
 
-        @compartment = @id.split('_')[@id.split('_').length - 1]
-        
         # Reaction properties
         # In neighbours
         @substrates = @inNeighbours = new Array()

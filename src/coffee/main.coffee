@@ -68,4 +68,4 @@ sortables =
     sortables: ['species', 'compartments']
     start: 'species'
 
-network = new System(systemAttributes, data, sortables)
+network = new System(systemAttributes, networkData, sortables)

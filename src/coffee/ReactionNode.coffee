@@ -6,6 +6,7 @@ class ReactionNode extends Node
         super(attr, @ctx)
 
     draw: ->
+    
         if not @deleted
             nos = 6
             size = @r
