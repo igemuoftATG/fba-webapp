@@ -33,7 +33,7 @@ class ViewController
     startCanvas:(subsystem) ->
         @activeGraph = subsystem
         #@activeGraph.force.start()
-        
+
         $(@id).css({
             "-moz-user-select": "none",
             "-webkit-user-select": "none",
@@ -276,7 +276,6 @@ class ViewController
         @ctx.fill()
 
     draw: ->
-        console.log @activeGraph.links
         for link in @activeGraph.links
             link.draw()
         for node in @activeGraph.nodes

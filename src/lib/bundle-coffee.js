@@ -358,8 +358,12 @@ SubSystem = (function() {
       value = kv.value[2];
       this.links.push(this.createLink(this.graph.vertexValue(from), this.graph.vertexValue(to), value, 1, 1, this.ctx));
     }
-    this.force = d3.layout.force().nodes(this.nodes).links(this.links).size([this.W, this.H]).linkStrength(2).friction(0.9).linkDistance(100).charge(100).gravity(0.1).theta(0.8).alpha(0.1);
+    this.intializeForce();
   }
+
+  SubSystem.prototype.initalizeForce = function() {
+    return this.force = d3.layout.force().nodes(this.nodes).links(this.links).size([this.W, this.H]).linkStrength(2).friction(0.9).linkDistance(100).charge(100).gravity(0.1).theta(0.8).alpha(0.1);
+  };
 
   SubSystem.prototype.createLink = function(src, tgt, name, flux, radius, ctx) {
     var linkAttr;
@@ -461,7 +465,7 @@ SubSystem = (function() {
   };
 
   SubSystem.prototype.createMetabolite = function(name, id, radius, updateOption, ctx) {
-    var metabolite, nodeAttributes;
+    var j, len, metabolite, node, nodeAttributes, nodeReturn, ref;
     nodeAttributes = {
       x: utilities.rand(this.W),
       y: utilities.rand(this.H),
@@ -475,12 +479,10 @@ SubSystem = (function() {
       this.viewController.updateOptions(name, id);
     }
     return metabolite;
-  };
-
-  SubSystem.prototype.createLink = creators.createLink;
-
-  SubSystem.prototype.checkCollisions = function(x, y) {
-    var j, len, node, nodeReturn, ref;
+    ({
+      createLink: creators.createLink,
+      checkCollisions: function(x, y) {}
+    });
     nodeReturn = null;
     ref = this.nodes;
     for (j = 0, len = ref.length; j < len; j++) {
@@ -550,8 +552,12 @@ SubSystem = (function() {
       value = kv.value[2];
       this.links.push(this.createLink(this.graph.vertexValue(from), this.graph.vertexValue(to), value, 1, 1, this.ctx));
     }
-    this.force = d3.layout.force().nodes(this.nodes).links(this.links).size([this.W, this.H]).linkStrength(2).friction(0.9).linkDistance(100).charge(100).gravity(0.1).theta(0.8).alpha(0.1);
+    this.intializeForce();
   }
+
+  SubSystem.prototype.initalizeForce = function() {
+    return this.force = d3.layout.force().nodes(this.nodes).links(this.links).size([this.W, this.H]).linkStrength(2).friction(0.9).linkDistance(100).charge(100).gravity(0.1).theta(0.8).alpha(0.1);
+  };
 
   SubSystem.prototype.createLink = function(src, tgt, name, flux, radius, ctx) {
     var linkAttr;
@@ -653,7 +659,7 @@ SubSystem = (function() {
   };
 
   SubSystem.prototype.createMetabolite = function(name, id, radius, updateOption, ctx) {
-    var metabolite, nodeAttributes;
+    var j, len, metabolite, node, nodeAttributes, nodeReturn, ref;
     nodeAttributes = {
       x: utilities.rand(this.W),
       y: utilities.rand(this.H),
@@ -667,12 +673,10 @@ SubSystem = (function() {
       this.viewController.updateOptions(name, id);
     }
     return metabolite;
-  };
-
-  SubSystem.prototype.createLink = creators.createLink;
-
-  SubSystem.prototype.checkCollisions = function(x, y) {
-    var j, len, node, nodeReturn, ref;
+    ({
+      createLink: creators.createLink,
+      checkCollisions: function(x, y) {}
+    });
     nodeReturn = null;
     ref = this.nodes;
     for (j = 0, len = ref.length; j < len; j++) {
@@ -1049,7 +1053,6 @@ ViewController = (function() {
 
   ViewController.prototype.draw = function() {
     var i, j, len, len1, link, node, ref, ref1, results;
-    console.log(this.activeGraph.links);
     ref = this.activeGraph.links;
     for (i = 0, len = ref.length; i < len; i++) {
       link = ref[i];
